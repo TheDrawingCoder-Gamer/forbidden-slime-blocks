@@ -34,3 +34,7 @@ run/
 
 # minepkg
 minecraft/
+
+# metals 
+.bloop/
+.metals/

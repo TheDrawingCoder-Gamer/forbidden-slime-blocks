@@ -4,6 +4,10 @@ pluginManagement {
             name = 'Fabric'
             url = 'https://maven.fabricmc.net/'
         }
+        maven {
+            name = 'Clojars' // name can be ommitted, but is helpful in troubleshooting
+            url = 'https://repo.clojars.org/'
+        }
         gradlePluginPortal()
     }
 }
