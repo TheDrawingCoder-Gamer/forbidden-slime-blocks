@@ -2,7 +2,7 @@ plugins {
     id 'maven-publish'
     id 'scala' 
     id 'groovy'
-    id 'dev.clojurephant.clojure' version '0.6.0'
+    id 'dev.clojurephant.clojure-base' version '0.6.0'
     id 'fabric-loom' version '0.10-SNAPSHOT'
 }
 
@@ -11,6 +11,15 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
+clojure {
+    builds {
+        main {
+            reflection = 'warn'
+            checkNamespaces = []
+            aotAll()
+        }
+    }
+}
 sourceSets {
     main {
         clojure {
@@ -20,7 +29,7 @@ sourceSets {
 }
 configurations {
     shadow 
-    compileOnly.extendsFrom shadow 
+    implementation.extendsFrom shadow 
 }
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -32,7 +41,8 @@ dependencies {
     }
     modImplementation files("../fabric-language-groovy/build/libs/fabric-language-groovy+1.1.1-fat.jar")
     compileOnly "org.apache.groovy:groovy:4.0.4"
-    shadow 'org.clojure:clojure:1.11.1'
+    shadow "org.clojure:java.classpath:1.0.0"
+    shadow 'org.clojure:clojure:1.11.1'  
 }
 processResources {
     inputs.property "version", project.version
@@ -48,7 +58,7 @@ tasks.named('compileGroovy') {
     classpath = sourceSets.main.compileClasspath
 }
 tasks.named('compileClojure') {
-    classpath.builtBy(tasks.named('compileScala'), tasks.named('compileGroovy'))
+    classpath.setFrom(files(sourceSets.main.groovy.classesDirectory), files(sourceSets.main.scala.classesDirectory))
 }
 tasks.named('compileJava') {
     println(sourceSets.main.clojure.classesDirectory)
