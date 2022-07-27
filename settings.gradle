@@ -9,5 +9,6 @@ pluginManagement {
             url = 'https://repo.clojars.org/'
         }
         gradlePluginPortal()
+        jcenter()
     }
 }

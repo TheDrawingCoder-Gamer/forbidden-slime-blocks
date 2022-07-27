@@ -10,9 +10,7 @@ import java.util.Map;
 import static net.fettlol.coloredslime.util.RegistryHelper.registerBlock;
 import static net.fettlol.coloredslime.util.RegistryHelper.registerItem;
 
-import clojure.java.api.Clojure; 
-import clojure.lang.IFn; 
-
+import net.fettlol.coloredslime.util.HelperRunner;
 public class ColoredSlime implements ModInitializer {
 
     public static final String MOD_ID = "coloredslime";
@@ -20,10 +18,8 @@ public class ColoredSlime implements ModInitializer {
     public static Identifier makeID(String path) {
         return new Identifier(MOD_ID, path);
     }
-
-    public static final Map<DyeColor, Block> slimeBlocks = (Map<DyeColor, Block>) Clojure.var("net.fettlol.coloredslime.util", "generateSlimeBlocks").invoke();
-    public static final Map<DyeColor, Block> honeyBlocks = (Map<DyeColor, Block>) Clojure.var("net.fettlol.coloredslime.util", "generateHoneyBlocks").invoke();
-
+    public static final Map<DyeColor, Block> slimeBlocks = HelperRunner.generateSlimeBlocks(); 
+    public static final Map<DyeColor, Block> honeyBlocks = HelperRunner.generateHoneyBlocks(); 
     @Override
     public void onInitialize() {
         for (DyeColor color : DyeColor.values()) {

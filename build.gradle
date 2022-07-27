@@ -1,9 +1,10 @@
 plugins {
+    id 'fabric-loom' version '0.10-SNAPSHOT'
     id 'maven-publish'
     id 'scala' 
     id 'groovy'
-    id 'dev.clojurephant.clojure-base' version '0.6.0'
-    id 'fabric-loom' version '0.10-SNAPSHOT'
+    id 'com.github.jruby-gradle.jar' version '2.0.1'
+
 }
 
 
@@ -11,22 +12,6 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-clojure {
-    builds {
-        main {
-            reflection = 'warn'
-            checkNamespaces = []
-            aotAll()
-        }
-    }
-}
-sourceSets {
-    main {
-        clojure {
-            classesDirectory.set(file("build/classes/clojure"))
-        } 
-    }
-}
 configurations {
     shadow 
     implementation.extendsFrom shadow 
@@ -41,8 +26,8 @@ dependencies {
     }
     modImplementation files("../fabric-language-groovy/build/libs/fabric-language-groovy+1.1.1-fat.jar")
     compileOnly "org.apache.groovy:groovy:4.0.4"
-    shadow "org.clojure:java.classpath:1.0.0"
-    shadow 'org.clojure:clojure:1.11.1'  
+
+    implementation "org.jruby:jruby-complete:9.3.4.0"
 }
 processResources {
     inputs.property "version", project.version
@@ -51,20 +36,15 @@ processResources {
         expand "version": project.version
     }
 }
-tasks.named('compileScala') {
+compileScala {
     classpath = sourceSets.main.compileClasspath 
 }
-tasks.named('compileGroovy') {
+compileGroovy {
     classpath = sourceSets.main.compileClasspath
 }
-tasks.named('compileClojure') {
-    classpath.setFrom(files(sourceSets.main.groovy.classesDirectory), files(sourceSets.main.scala.classesDirectory))
-}
-tasks.named('compileJava') {
-    println(sourceSets.main.clojure.classesDirectory)
+compileJava {
     classpath += files(sourceSets.main.scala.classesDirectory) 
     classpath += files(sourceSets.main.groovy.classesDirectory) 
-    classpath += files(sourceSets.main.clojure.classesDirectory) 
 }
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
@@ -99,4 +79,8 @@ publishing {
     repositories {
         // Nothing here right now.
     }
+}
+
+jrubyJar {
+    initScript library()
 }
