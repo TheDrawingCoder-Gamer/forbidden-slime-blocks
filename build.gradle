@@ -2,7 +2,7 @@ plugins {
     id 'maven-publish'
     id 'scala' 
     id 'groovy'
-    id 'dev.clojurephant.clojure-base' version '0.6.0'
+    id 'dev.clojurephant.clojure-base' version '0.7.0'
     id 'fabric-loom' version '0.10-SNAPSHOT'
 }
 
