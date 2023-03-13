@@ -40,7 +40,7 @@ dependencies {
 	exclude group: 'net.fabricmc'
     }
     modImplementation files("../fabric-language-groovy/build/libs/fabric-language-groovy+1.1.1-fat.jar")
-    compileOnly "org.apache.groovy:groovy:4.0.4"
+    compileOnly "org.apache.groovy:groovy:4.0.10"
     shadow "org.clojure:java.classpath:1.0.0"
     shadow 'org.clojure:clojure:1.11.1'  
 }
